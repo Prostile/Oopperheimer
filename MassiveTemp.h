@@ -1,352 +1,359 @@
 #pragma once
-#pragma once
-#include <iostream>
-#include <algorithm>
+#включить <iostream>
+#включить <алгоритм>
 
-template <typename T>
-class TempArr
+шаблон <имя типа T>
+класс TempArr
 {
-    T* a;
-    int n;
+ T * a; 
+ int n;
 
-    void ShiftLeft(int);
+ аннулирует ShiftLeft(int);
 
 public:
-    TempArr(int m = 1);
-    TempArr(T* b, int m);
-    TempArr(const TempArr<T>&);
-    TempArr& operator= (const TempArr<T>&);
-    ~TempArr();
+ TempArr(int m = 1);
+ TempArr(T * b, int m);
+ TempArr(постоянная температура<T>&);
+ TempArr& operator= (const TempArr<T>&);
+ ~TempArr();
 
-    void Scan();
-    void Print();
+ аннулирует сканирование();
+ аннулирует печать();
 
-    T& operator [] (int);
-    int FindKey(int);
+ T& operator [] (int) const;
+ int FindKey(int);
 
-    TempArr<T>& operator+= (T X);
-    TempArr<T>  operator+ (T key);
-    TempArr<T>& operator+= (TempArr<T>& X);
-    TempArr<T> operator+ (TempArr<T>& X);
-    
-    TempArr<T>& operator-= (int X);
-    TempArr<T>  operator- (T key);
+ TempArr<T>& operator+= (T X);
+ TempArr<T> оператор+ (клавиша T);
+ TempArr<T>& оператор+= (TempArr<T>& X);
+ TempArr<T> оператор+ (TempArr<T>& X);
 
-    TempArr<T>& DelPosEq(int X);
-    TempArr<T> DelPosNew(T key);
+ TempArr<T>& operator-= (T X);
+ TempArr<T> оператор- (клавиша T);
 
-    bool operator== (TempArr<T>&);
-    bool operator!= (TempArr<T>&);
+ TempArr<T>& DelPosEq(int X);
+ TempArr<T> DelPosNew(ключ int);
 
-    T Max();
-    T Min();
-    void Sorting();
+ оператор bool== (TempArr<T>&);
+ оператор bool!= (const TempArr<T>&) const;
 
-    template <class T> friend std::ostream& operator<< (std::ostream& r, TempArr<T>& X);
-    template <class T> friend std::istream& operator>> (std::istream& r, TempArr<T>& X);
+ int Max();
+ int Min();
+ сортировка пустоты();
 
-    int GetN() { return n; }
+ шаблон <класс T> friend std::ostream& operator<< (std::ostream& r, TempArr<T>& X);
+ шаблон <class T> friend std::istream& operator>> (std::istream& r, TempArr<T>& X);
+
+ int GetN() { возвращает n; }
 };
 
 
-template <class T>
-void TempArr<T>::ShiftLeft(int pos)
+шаблон <класс T>
+аннулирует TempArr<T>::ShiftLeft(int pos)
 {
-    T* Ta = new T[n - 1];
-    for (int i = 0; i < pos; i++) Ta[i] = a[i];
-    for (int i = pos; i < n - 1; i++) Ta[i] = a[i + 1];
-    delete[] a;
-    a = Ta;
+ T * Ta = новое T[n - 1]; 
+ для (int i = 0; i < pos; i++) Ta[i] = a[i];
+ для (int i = pos; i < n - 1; i++) Ta[i] = a[i + 1];
+ удалить[] a;
+ a = Ta;
 }
 
-template <class T>
+шаблон <класс T>
 TempArr<T>::TempArr(int m)
 {
-    a = new T[m];
-    n = m;
-    for (int i = 0; i < n; i++) a[i] = rand() % 100;
+ std::cout << "ааааа" << std::endl;
+ a = новый T[m];
+ n = m; 
+ для (int i = 0; i < n; i++) a[i] = 0;
 }
 
-template <class T>
-TempArr<T>::TempArr(T* b, int m)		//m -????? ??-??? ? ??????? b
+шаблон <класс T>
+TempArr<T>::TempArr(T* b, int m)
+ : n(std::max(0,m))
+ , a(новое значение T[n])
 {
-    a = new T[m];
-    for (int i = 0; i < m; i++)
-        a[i] = b[i];
-    n = m;
+ std::копировать(b, b + n, a);
 }
 
-template <class T>
-TempArr<T>::TempArr(const TempArr& X)
-{
-    n = X.n;
-    a = new T[n];
-    for (int i = 0; i < n; i++)
-        a[i] = X.a[i];
-}
+шаблон <класс T>
+TempArr<T>::TempArr(const TempArr& X) : TempArr(X.a, X.n) {}
 
-template <class T>
+шаблон <класс T>
 TempArr<T>& TempArr<T>::operator= (const TempArr& X)
 {
-    if (this != &X)
-    {
-        delete[]a;
-        n = X.n;
-        a = new T[n];
-        for (int i = 0; i < n; i++)
-            a[i] = X.a[i];
-    }
-    return *this;
+ if (*this != X)
+ { 
+ удалить[]a;
+ n = X.n;
+ a = новый T[n];
+ for (int i = 0; i < n; i++)
+ a[i] = X.a[i];
+ }
+ возвращает *этот;
 }
 
-template <class T>
+шаблон <класс T>
 TempArr<T>::~TempArr()
 {
-    delete[]a;
+ удалить[]a;
 }
 
-template <class T>
-void TempArr<T>::Scan()			//???? ??????? ?? m ??-??? ? ??????????
+шаблон <класс T>
+void TempArr<T>::Сканировать() //???? ??????? ?? m ??-???? ??????????
 {
-    int m;
-    std::cout << "enter num of elements: " << std::endl;
-    std::cin >> m;
-    std::cout << "enter " << m << " elements: ";
-    if (n != m)
-    {
-        delete[]a;   n = m;
-        a = new T[m];
-    }
-    for (int i = 0; i < n; i++)
-        std::cin >> a[i];
-    std::cout << std::endl;
+ int m;
+ std::cout << "введите количество элементов: " << std::endl;
+ std::cin >> m;
+ std::cout << "ввести" << m << "элементы: "; 
+ if (n != m)
+ { 
+ удалить[]a; n = m;
+ a = создать T[m];
+ } 
+ for (int i = 0; i < n; i++)
+ std::cin >> a[i];
+ std::cout << std::endl;
 }
 
-template <class T>
-void TempArr<T>::Print()     			 //????? ??????? ?? ???????
+шаблон <класс T>
+аннулирует TempArr<T>::Print() //????? ??????? ?? ???????
 {
-    for (int i = 0; i < n; i++)
-        std::cout << a[i] << ' ';
-    std::cout << std::endl;
+ для (int i = 0; i < n; i++)
+ std::cout << a[i] << ' ';
+ std::cout << std::endl;
 }
 
-template <class T>
-T& TempArr<T>::operator [] (int k)	//?????????? i-?? ??-?? ??????? a
+шаблон <класс T>
+T& TempArr<T>::operator [] (int k) const //?????????? я-?? ??-????????? a 
 {
-    try {
-        if (k < 0)
-            throw 0;
-        if (k >= n)
-            throw "incorrect index";
-        return a[k];
-    }
-    catch (int m)
-    {
-        std::cout << "index <0";
-        return a[m];
-    }
-    catch (char* s)
-    {
-        std::cout << s;
-        return a[n - 1];
-    }
-    catch (...)
-    {
-        std::cout << "incorrect index";
-        return a[0];
-    }
+ попробуй {
+ if (k < 0) 
+ выбросить 0; 
+ if (k >= n)
+ выбросить "неправильный индекс";
+ вернуть a[k];
+ }
+ поймать (int m)
+ { 
+ std::cout << "index <0";
+ возвращает a[m];
+ }
+ catch (char * s)
+ {
+ std::cout << s; 
+ возвращает a[n - 1];
+ }
+ catch (...)
+ { 
+ std::cout << "неверный индекс";
+ возвращает a[0];
+ }
 }
 
-template <class T>
-int TempArr<T>::FindKey(int key)
+шаблон <класс T>
+int TempArr<T>::FindKey (ключ int)
 {
-    for (int i = 0; i < n; i++)
-    {
-        if (a[i] == key) return i;
-    }
-    return -1;
+ for (int i = 0; i < n; i++)
+ { 
+ if (a[i] == ключ) возвращает i;
+ } 
+ возвращает -1;
 }
 
-template <class T>
-TempArr<T>& TempArr<T>::operator+= (T key)
+шаблон <класс T>
+TempArr<T>& TempArr<T>::оператор+= (клавиша T)
 {
-    int i; T* t;
-    t = new T[n + 1];
-    for (i = 0; i < n; i++)  t[i] = a[i];
-    t[n] = key;
-    delete[]a;
-    a = t;   n++;
-    return *this;
+ int i; T* t;
+ t = создать T[n + 1]; 
+ для (i = 0; i < n; i++) t[i] = a[i];
+ t[n] = ключ;
+ удалить[]a;
+ a = t; n++;
+ возвращает * этот;
 }
 
-template <class T>
-TempArr<T> TempArr<T>::operator+ (T key)
+шаблон <класс T>
+TempArr<T> TempArr<T>::оператор+ (клавиша T)
 {
-    TempArr<T> Res(n + 1);
-    for (int i = 0; i < n; i++)
-        Res.a[i] = a[i];
-    Res.a[n] = key;
-    return Res;
+ TempArr<T> Res(n + 1);
+ для (int i = 0; i < n; i++)
+ Res.a[i] = a[i];
+ Res.a[n] = ключ;
+ возвращать Res; 
 }
 
-template <class T>
-TempArr<T>& TempArr<T>::operator+= (TempArr<T>& X)
+шаблон <класс T>
+TempArr<T>& TempArr<T>::оператор+= (TempArr<T>& X)
 {
-    TempArr<T> Temp(a, n);
-    int N = n + X.n;
-    delete[] a;
-    a = new T[N];
-    for (int i = 0; i < n; i++) a[i] = Temp.a[i];
-    for (int i = n,j=0; i < N; i++,j++) a[i] = X.a[j];
-    n = N;
-    return *this;
+ TempArr<T> Temp(a, n); 
+ int N = n + X.n;
+ удалить[] a;
+ a = создать T[N];
+ for (int i = 0; i < n; i++) a[i] = Temp.a[i];
+ for (int i = n, j = 0; i < N; i++, j++) a[i] = X.a[j];
+ n = N; 
+ возвращает *этот;
 }
 
-template <class T>
-TempArr<T> TempArr<T>::operator+ (TempArr<T>& X)
+шаблон <класс T>
+TempArr<T> TempArr<T>::оператор+ (TempArr<T>& X)
 {
-    TempArr<T> b(a, n);
-    b += X;
-    return b;
+ TempArr<T> b(a, n);
+ b += X; 
+ возвращает b;
 }
 
-template <class T>
-TempArr<T>& TempArr<T>::operator-= (int ind)
+шаблон <класс T>
+TempArr<T>& TempArr<T>::оператор-= (T X)
 {
-    TempArr<T> k(n - 1);
-    //ShiftLeft(ind);
-    for (int i = 0; i < n - 1; i++)
-    {
-        if (ind == i) {
-            k.a[i] = a[i+1];
-            i++;
-        }
-        k.a[i] = a[i];
-    }
-    n--;
-    return k;
+ //Температура<T> k(n - 1); 
+ ////Смещение (ind);
+ //int ind = FindKey(X); 
+ //для (int i = 0; i < n - 1; i++)
+ //{
+ // если (ind == i) {
+ // k.a[i] = a[i + 1];
+ // i++;
+ // }
+ // к.a[i] = a[i];
+ //}
+ //n--; 
+ int ind = FindKey(X);
+ ShiftLeft(ind);
+ возвращает *этот;
 }
 
-template <class T>
-TempArr<T> TempArr<T>::operator- (T key)
+шаблон <класс T>
+TempArr<T> TempArr<T>::оператор- (клавиша T)
 {
-    TempArr<T> k(n - 1);
-    int Tkey = FindKey(key);
-    for (int i = 0; i < n - 1; i++)
-    {
-        if (Tkey == i) {
-            k.a[i] = a[i + 1];
-        }
-        else k.a[i] = a[i];
-    }
-    //n -= 1;
-    return k;
+ TempArr<T> k(n - 1); 
+ int Tkey = FindKey(ключ);
+ for (int i = 0; i < n - 1; i++)
+ { 
+ если (Tkey == i) { 
+ k.a[i] = a[i + 1];
+ }
+ else k.a[i] = a[i];
+ }
+ //n -= 1; 
+ возвращает k;
 }
 
-template <class T>
+шаблон <класс T>
 TempArr<T>& TempArr<T>::DelPosEq(int k)
 {
-    a[FindKey(k)] = 0;
-    return *this;
+ ShiftLeft(k);
+ возвращает *это; 
 }
 
-template <class T>
-TempArr<T> TempArr<T>::DelPosNew(T key)
+шаблон <класс T>
+TempArr<T> TempArr<T>::DelPosNew(ключ ввода)
 {
-    TempArr<T> d = *this, k(n - 1);
-    d.ShiftLeft(d.FindKey(key));
-    for (int i = 0; i < n - 1; i++)
-    {
-        k.a[i] = d.a[i];
-    }
-    return k;
+ TempArr<T> k(n - 1);
+ for (int i = 0; i < n - 1; i++)
+ { 
+ если (ключ == i) { 
+ k.a[i] = a[i + 1];
+ }
+ else k.a[i] = a[i];
+ }
+ //n -= 1; 
+ возвращает k;
 }
 
-template <class T>
-bool TempArr<T>::operator== (TempArr<T>& X)
+шаблон <класс T>
+bool TempArr<T>::оператор== (TempArr<T>& X)
 {
-    if (n == X.n)
-    {
-        for (int i = 0; i < n; i++)
-        {
-            if (a[i] == X[i]);
-            else return false;
-        }
-        return true;
-    }
-    else return false;
+ если (n == X.n)
+ {
+ для (int i = 0; i < n; i++)
+ { 
+ if (a[i] == X[i]);
+ else возвращает false;
+ } 
+ возвращает true;
+ } 
+ else возвращает false;
 }
 
-template <class T>
-bool TempArr<T>::operator!= (TempArr<T>& X)
+шаблон <класс T>
+bool TempArr<T>::оператор!= (const TempArr<T>& X) const
 {
-    if (n != X.n)
-    {
-        for (int i = 0; i < n; i++)
-        {
-            if (a[i] != X[i]);
-            else return false;
-        }
-        return true;
-    }
-    else return false;
-    /*
+ если (n != X.n)
+ {
+ for (int i = 0; i < n; i++)
+ { 
+ if (a[i] != X[i]);
+ else возвращает false;
+ } 
+ возвращает true;
+ } 
+ else возвращает false;
+ /*
 
-        if(!(*this==X))return true;
-        else return false;
-    */
+ if(!(*this==X))возвращает true;
+ else возвращает false;
+ */
 }
 
-template <class T>
-T TempArr<T>::Max()
+шаблон <класс T>
+int TempArr<T>::Max()
 {
-    int Mi = 0, M = a[0];
-    for (int i = 0; i < n; i++)
-    {
-        if (M < a[i]) { M = a[i]; Mi = i; }
-    }
-    return Mi;
+ if (n <= 0) { 
+ возвращает значение -1;
+ }
+
+ int Mi = 0; T M = a[0];
+ for (int i = 1; i < n; i++)
+ { 
+ if (M < a[i]) { M = a[i]; Mi = i; }
+ }
+ возвращает Mi;
 }
 
-template <class T>
-T TempArr<T>::Min()
+шаблон <класс T>
+int TempArr<T>::Min()
 {
-    int mi = 0, m = a[0];
-    for (int i = 0; i < n; i++)
-    {
-        if (m > a[i]) { m = a[i]; mi = i; }
-    }
-    return mi;
+ if (n <= 0) { 
+ возвращает значение -1; 
+ }
+
+ int mi = 0; T m = a[0];
+ для (int i = 1; i < n; i++)
+ { 
+ if (m > a[i]) {m = a[i]; mi = i; }
+ }
+ возвращает mi;
 }
 
-template <class T>
-void TempArr<T>::Sorting()
+шаблон <класс T>
+аннулирует TempArr<T>::Сортировка()
 {
-    std::sort(a, a + n);
+ std::сортировка(a, a + n);
 }
 
-template <class T>
+шаблон <класс T>
 std::ostream& operator<< (std::ostream& r, TempArr<T>& X)
 {
-    r << "number of elemets: " << X.n << std::endl;
-    for (int i = 0; i < X.n; i++)
-    {
-        r << X.a[i] << " ";
-    }
-    return r;
+ r << "количество элементов: " << X.n << std::endl;
+ для (int i = 0; i < X.n; i++)
+ {
+ r << X.a[i] << " ";
+ } 
+ возвращает r;
 }
 
-template <class T>
+шаблон <класс T>
 std::istream& operator>> (std::istream& r, TempArr<T>& X)
 {
-    std::cout << "enter the number of elements: ";
-    int m;    std::cin >> m;
-    if (X.n != m)
-    {
-        delete[]X.a;
-        X.a = new T[m];  X.n = m;
-    }
-    std::cout << "enter " << m << " elements of TempArr: ";
-    for (int i = 0; i < X.n; i++) r >> X.a[i];
-    return r;
+ std::cout << "введите количество элементов: "; 
+ int m; std::cin >> m; 
+ if (X.n != m)
+ { 
+ удалить[]X.a;
+ X.a = новое T[m]; X.n = m;
+ } 
+ std::cout << "ввести" << m << "элементы TempArr: "; 
+ for (int i = 0; i < X.n; i++) r >> X.a[i];
+ возвращать r; 
 }
