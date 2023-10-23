@@ -1,127 +1,320 @@
-#include "Source.h"
+#pragma once
+#pragma once
 #include <iostream>
+#include <algorithm>
 
-int main()
+template <typename T>
+class TempArr
 {
-	TempArr<int> Aint;
-	//1)	Создайте объект Array mas1. Занесите в него 5 чисел: 1,2,3,4,5
-	//  (элементы вводятся с клавиатуры, для заполнения член-данных используйте функцию Scan).
-	//Выведите mas1 на экран, используя функцию Print.
+    T* a;
+    int n;
 
-	Aint.Scan();
-	std::cout << "1:" << std::endl;
-	Aint.Print();
+    void ShiftLeft(int);
 
-	//2)	Создайте объект Array mas2, инициализировав его при создании объектом mas 1.
-	//Выведите mas2 на экран, используя потоковый вывод.
+public:
+    TempArr(int m = 1);
+    TempArr(T* b, int m);
+    TempArr(const TempArr<T>&);
+    TempArr& operator= (const TempArr<T>&);
+    ~TempArr();
 
-	std::cout << "2:" << std::endl;
-	TempArr<int> Bint = Aint;
-	Bint.Print();
-	//3)	Сравните массивы mas1 и mas2.
+    void Scan();
+    void Print();
 
-	std::cout << "3:" << std::endl;
-	std::cout << "int: " << std::endl;
-	if (Aint == Bint) std::cout << "равны" << std::endl;
-	else std::cout << "не равны" << std::endl;
-	//4)	Измените mas1 добавив в него число 6. Выведите измененный mas1 на экран.Сравните массивы mas1 и mas2.
+    T& operator [] (int)const;
+    int FindKey(int);
 
-	std::cout << "4:" << std::endl;
-	Aint += 2;
+    TempArr<T>& operator+= (T X);
+    TempArr<T>  operator+ (T key);
+    TempArr<T>& operator+= (TempArr<T>& X);
+    TempArr<T> operator+ (TempArr<T>& X);
+    
+    TempArr<T>& operator-= (T X);
+    TempArr<T>  operator- (T key);
 
-	Aint.Print();
+    TempArr<T>& DelPosEq(int k);
+    TempArr<T> DelPosNew(int k);
 
-	std::cout << "int: " << std::endl;
-	if (Aint == Bint) std::cout << "равны" << std::endl;
-	else std::cout << "не равны" << std::endl;
-	//5)	Создайте объект Array mas3, который получается добавлением к mas1  числа 7. Выведите mas3 на экран.
+    bool operator== (const TempArr<T>&)const;
+    bool operator!= (const TempArr<T>&) const;
 
-	std::cout << "5:" << std::endl;
-	Aint += 7;
-	TempArr<int> Cint = Aint;// += 7;
-	Cint.Print();
-	//6)	Удалите первый элемент из mas3.Выведите получившийся mas3 на экран.
-	std::cout << "6:" << std::endl;
+    int Max();
+    int Min();
+    void Sorting();
 
-	Cint.DelPosEq(1);
+    template <class T> friend std::ostream& operator<< (std::ostream& r, TempArr<T>& X);
+    template <class T> friend std::istream& operator>> (std::istream& r, TempArr<T>& X);
 
-	Cint.Print();
-	//7)	Создайте массив mas4, который получается из mas3 удалением последнего элемента.Выведите получившийся mas4 на экран.
-	std::cout << "7:" << std::endl;
-	int lastInt = Cint.GetN() - 1;
-	//std::cout << lastInt << " " << lastFloat << " " << lastChar;
-
-	Cint -= lastInt;
-	TempArr<int> Dint = Cint;
-
-	Dint.Print();
-	//8)	Удалите из mas1 элемент key = 1. Проверьте, равны ли mas1 и mas4
-
-	Aint -= Aint.FindKey(1);
-
-	if (Aint == Dint) std::cout << "равны" << std::endl;
-	else std::cout << "не равны" << std::endl;
-	//9)	Введите число n  и сформируйте массив b из n случайных чисел.Создайте объект Array mas5, 
-	//		используя конструктор с аргументом - массив.
-	int n = -1;
-
-	while (n < 0)
-	{
-		std::cout << "введите число n элементов: " << std::endl;
-		std::cin >> n;
-		if (n < 0) std::cout << "число меньше 0" << std::endl;
-	}
-
-	int* bInt = new int[n];
-	for (int i = 0; i < n; i++)
-	{
-		bInt[i] = rand() % 100;
-	}
-
-	TempArr<int> Eint(bInt, n);
-
-	Eint.Print();
-	//10)  Найдите максимальный и минимальный элемент в mas5.Выведите на экран эти элементы и их индексы.
-
-	std::cout << "max: " << Eint[Eint.Max()] << " min: " << Eint[Eint.Min()] << std::endl;
-	//11)	Сортируйте mas5 и выведите результат на экран.
-
-	Eint.Sorting();
-
-	Eint.Print();
-	//12)	Создайте  объект Array mas6, объединив mas1 и mas5.Выведите результат на экран
-
-	TempArr<int> Fint = Aint + Eint;
-
-	Fint.Print();
-	//13)  Создайте  объект Array mas7 – массив из 4 - х элементов.
-	//Заполните член - данные(10, 11, 12, 13), используя потоковый ввод.
-
-	TempArr<int> Gint(4);
-	std::cout << "введите 4 элемента: ";
-	for (int i = 0; i < 4; i++)
-	{
-		int n; std::cin >> n; Gint[i] = n;
-	}
-	Gint.Print();
-	//14)  Проверьте, входят ли в mas7 элементы 1 и 10. Создайте mas8, который получается из mas7 удалением элемента 10.
-
-	if (Gint.FindKey(1) != -1) std::cout << "1 входит в массив" << std::endl;
-	else std::cout << "1 входит в массив" << std::endl;
-	if (Gint.FindKey(10) != -1) std::cout << "10 не входит в массив" << std::endl;
-	else std::cout << "10 не входит в массив" << std::endl;
-	TempArr<int> Hint = Gint - 10;
-	Hint.Print();
-	//15)	Измените mas4, добавив к нему mas7.Выведите результат на экран.Сравните mas6 и mas4.
-
-	Dint += Hint;
-	Dint.Print();
+    int GetN() { return n; }
+};
 
 
+template <class T>
+void TempArr<T>::ShiftLeft(int pos)
+{
+    T* Ta = new T[n - 1];
+    for (int i = 0; i < pos; i++) Ta[i] = a[i];
+    for (int i = pos; i < n - 1; i++) Ta[i] = a[i + 1];
+    delete[] a;
+    a = Ta;
+    n--;
+}
 
-	//16) Осуществите присвоение mas4 = mas6.Выведите результат на экран
+template <class T>
+TempArr<T>::TempArr(int m)
+{
+    a = new T[m];
+    n = m;
+    for (int i = 0; i < n; i++) a[i] = 0;
+}
 
-	Dint = Fint;
-	Dint.Print();
+template <class T>
+TempArr<T>::TempArr(T* b, int m) : n(std::max(0, m)), a(new T[n])
+{
+    std::copy(b, b + n, a);
+}
 
+template <class T>
+TempArr<T>::TempArr(const TempArr& X): TempArr(X.a,X.n){}
+
+template <class T>
+TempArr<T>& TempArr<T>::operator= (const TempArr& X)
+{
+    if (*this != X)
+    {
+        delete[]a;
+        n = X.n;
+        a = new T[n];
+        for (int i = 0; i < n; i++)
+            a[i] = X.a[i];
+    }
+    return *this;
+}
+
+template <class T>
+TempArr<T>::~TempArr()
+{
+    delete[]a;
+}
+
+template <class T>
+void TempArr<T>::Scan()			
+{
+    int m;
+    std::cout << "enter num of elements: " << std::endl;
+    std::cin >> m;
+    std::cout << "enter " << m << " elements: ";
+    if (n != m)
+    {
+        delete[]a;   n = m;
+        a = new T[m];
+    }
+    for (int i = 0; i < n; i++)
+        std::cin >> a[i];
+    std::cout << std::endl;
+}
+
+template <class T>
+void TempArr<T>::Print()     			 
+{
+    for (int i = 0; i < n; i++)
+        std::cout << a[i] << ' ';
+    std::cout << std::endl;
+}
+
+template <class T>
+T& TempArr<T>::operator [] (int k)const
+{
+    try {
+        if (k < 0)
+            throw "index <0";
+        if (k > n)
+            throw "index > maxindex";
+        return a[k];
+    }
+    catch (char* s)
+    {
+        std::cout << s;
+        return a[-1];
+    }
+}
+
+template <class T>
+int TempArr<T>::FindKey(int key)
+{
+    for (int i = 0; i < n; i++)
+    {
+        if (a[i] == key) return i;
+    }
+    return -1;
+}
+
+template <class T>
+TempArr<T>& TempArr<T>::operator+= (T key)
+{
+    int i; 
+    T* t = new T[n + 1];
+    for (i = 0; i < n; i++)  t[i] = a[i];
+    t[n] = key;
+    delete[]a;
+    a = t;   n++;
+    return *this;
+}
+
+template <class T>
+TempArr<T> TempArr<T>::operator+ (T key)
+{
+    TempArr<T> Res(n + 1);
+    for (int i = 0; i < n; i++)
+        Res.a[i] = a[i];
+    Res.a[n] = key;
+    return Res;
+}
+
+template <class T>
+TempArr<T>& TempArr<T>::operator+= (TempArr<T>& X)
+{
+    TempArr<T> Temp(a, n);
+    int N = n + X.n;
+    delete[] a;
+    a = new T[N];
+    for (int i = 0; i < n; i++) a[i] = Temp.a[i];
+    for (int i = n,j=0; i < N; i++,j++) a[i] = X.a[j];
+    n = N;
+    return *this;
+}
+
+template <class T>
+TempArr<T> TempArr<T>::operator+ (TempArr<T>& X)
+{
+    TempArr<T> b(a, n);
+    b += X;
+    return b;
+}
+
+template <class T>
+TempArr<T>& TempArr<T>::operator-= (T X)
+{
+    int ind = FindKey(X);
+    ShiftLeft(ind);
+    return *this;
+}
+
+template <class T>
+TempArr<T> TempArr<T>::operator- (T key)
+{
+    TempArr<T> k(n - 1);
+    int Tkey = FindKey(key);
+    for (int i = 0; i < n - 1; i++)
+    {
+        if (i < Tkey) {
+            k.a[i] = a[i];
+         }
+         else k.a[i] = a[i + 1];
+    }
+    return k;
+}
+
+template <class T>
+TempArr<T>& TempArr<T>::DelPosEq(int k)
+{
+    ShiftLeft(k);
+    return *this;
+}
+
+template <class T>
+TempArr<T> TempArr<T>::DelPosNew(int k)
+{
+    TempArr<T> d(a, n);
+    d.ShiftLeft(k);
+    return d;
+}
+
+template <class T>
+bool TempArr<T>::operator== (const TempArr<T>& X)const
+{
+    if (n == X.n)
+    {
+        for (int i = 0; i < n; i++)
+        {
+            if (a[i] == X[i]);
+            else return false;
+        }
+        return true;
+    }
+    else return false;
+}
+
+template <class T>
+bool TempArr<T>::operator!= (const TempArr<T>& X)const
+{
+    //if (n != X.n)
+    //{
+    //    for (int i = 0; i < n; i++)
+    //    {
+    //        if (a[i] != X[i]);
+    //        else return false;
+    //    }
+    //    return true;
+    //}
+    //else return false;
+    //
+    if(!(*this==X))return true;
+    else return false;
+}
+
+template <class T>
+int TempArr<T>::Max()
+{
+    if (n <= 0) return -1;
+    int Mi = 0; T M = a[0];
+    for (int i = 1; i < n; i++)
+    {
+        if (M < a[i]) { M = a[i]; Mi = i; }
+    }
+    return Mi;
+}
+
+template <class T>
+int TempArr<T>::Min()
+{
+    if (n <= 0) return -1;
+    int mi = 1; T m = a[0];
+    for (int i = 0; i < n; i++)
+    {
+        if (m > a[i]) { m = a[i]; mi = i; }
+    }
+    return mi;
+}
+
+template <class T>
+void TempArr<T>::Sorting()
+{
+    std::sort(a, a + n);
+}
+
+template <class T>
+std::ostream& operator<< (std::ostream& r, TempArr<T>& X)
+{
+    r << "number of elemets: " << X.n << std::endl;
+    for (int i = 0; i < X.n; i++)
+    {
+        r << X.a[i] << " ";
+    }
+    return r;
+}
+
+template <class T>
+std::istream& operator>> (std::istream& r, TempArr<T>& X)
+{
+    std::cout << "enter the number of elements: ";
+    int m;    std::cin >> m;
+    if (X.n != m)
+    {
+        delete[]X.a;
+        X.a = new T[m];  X.n = m;
+    }
+    std::cout << "enter " << m << " elements of TempArr: ";
+    for (int i = 0; i < X.n; i++) r >> X.a[i];
+    return r;
 }
